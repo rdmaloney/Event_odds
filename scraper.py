@@ -86,8 +86,8 @@ def merge_data(df):
         test = pd.merge(df, odds_db, left_on=["Fighter_1"], right_on=["Fighter1"])
         test2 = pd.merge(test, odds_db, left_on=["Fighter_2"], right_on=["Fighter2"])
         
-        test2["Fighter1_Odds"]=test2.apply(f1_odds, axis=1)
-        test2["Fighter2_Odds"]=test2.apply(f2_odds, axis=1)
+        test2["Fighter1_Odds"]=test2.apply(odds_db.f1_odds, axis=1)
+        test2["Fighter2_Odds"]=test2.apply(odds_db.f2_odds, axis=1)
         
         final_df = test2[['Event', 'Fighter_1', 'Fighter_2', 'Fighter1_Odds', 'Fighter2_Odds']]
 
