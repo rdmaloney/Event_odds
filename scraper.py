@@ -59,8 +59,8 @@ def create_df():
     df = pd.DataFrame()
 
     df["Event"] = e_name
-    df["Fighter1"] = f1
-    df["Fighter2"] = f2
+    df["Fighter_1"] = f1
+    df["Fighter_2"] = f2
 
     return df
 
