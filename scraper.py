@@ -78,6 +78,8 @@ def merge_data(df):
             'key': morph_api_key,
             'query': "select * from data"
         })
+        
+        j = r.json()
 
         odds_db = pd.DataFrame.from_dict(j)
 
