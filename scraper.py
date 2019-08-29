@@ -76,7 +76,7 @@ def merge_data(df):
 
         r = requests.get(morph_api_url, params={
             'key': morph_api_key,
-            'query': "select * from "data"
+            'query': "select * from data"
         })
 
         odds_db = pd.DataFrame.from_dict(j)
