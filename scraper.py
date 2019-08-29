@@ -83,8 +83,8 @@ def merge_data(df):
 
         odds_db = pd.DataFrame.from_dict(j)
 
-        test = pd.merge(df, odds_db, left_on=["Fighter1"], right_on=["Fighter1"])
-        test2 = pd.merge(test, odds_db, left_on=["Fighter2"], right_on=["Fighter2"])
+        test = pd.merge(df, odds_db, left_on=["Fighter_1"], right_on=["Fighter1"])
+        test2 = pd.merge(test, odds_db, left_on=["Fighter_2"], right_on=["Fighter2"])
 
         final_df = test2[['Event', 'Fighter1', 'Fighter2', 'Fighter1_Odds', 'Fighter2_Odds']]
 
