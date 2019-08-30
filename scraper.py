@@ -57,11 +57,10 @@ def scrape_data():
 
 def create_df():
     df = pd.DataFrame()
-    df["Fighter1"] = f1
-    df["Fighter1_Odds"] = f1_odds
-    df["Fighter2"] = f2
-    df["Fighter2_Odds"] = f2_odds
-
+    df["Event"] = e_name
+    df["Fighter_1"] = f1
+    df["Fighter_2"] = f2
+ 
     return df
 
 def merge_data(df):
