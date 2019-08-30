@@ -14,54 +14,56 @@ f1 = []
 f2 = []
 
 
-
-
 def scrape_data():
+    data = requests.get("http://ufcstats.com/statistics/events/upcoming")
+    soup = BeautifulSoup(data.text, 'html.parser')
+    table = soup.find('table', {"class": "b-statistics__table-events"})
+    links = table.find_all('a', href=True)
 
-        data = requests.get("http://ufcstats.com/statistics/events/upcoming")
+    for link in links:
+        all_links.append(link.get('href'))
+
+    for link in all_links:
+        print(f"Now currently scraping link: {link}")
+
+        data = requests.get(link)
         soup = BeautifulSoup(data.text, 'html.parser')
-        table = soup.find('table', {"class": "b-statistics__table-events"})
-        links = table.find_all('a', href=True)
+        time.sleep(1)
 
-        for link in links:
-            all_links.append(link.get('href'))
+        rows = soup.find_all('tr', {
+            "class": "b-fight-details__table-row b-fight-details__table-row__hover js-fight-details-click"})
 
-        for link in all_links:
-            print(f"Now currently scraping link: {link}")
+        for row in rows:
 
-            data = requests.get(link)
-            soup = BeautifulSoup(data.text, 'html.parser')
-            time.sleep(1)
+            h2 = soup.find("h2")
+            e_name.append(h2.text.strip())
 
-            
+            fighters = row.find_all('a', {"href": re.compile("http://ufcstats.com/fighter-details")})
 
-            rows = soup.find_all('tr', {"class": "b-fight-details__table-row b-fight-details__table-row__hover js-fight-details-click"})
+            try:
+                f1.append(fighters[0].text.strip())
+                f2.append(fighters[1].text.strip())
+            except IndexError:
+                f1.append("null")
+                f2.append("null")
+            continue
 
-            for row in rows:
-                    
-                    h2 = soup.find("h2")
-                    e_name.append(h2.text.strip())
-
-                    fighters = row.find_all('a', {"href": re.compile("http://ufcstats.com/fighter-details")})
-
-                    try:
-                        f1.append(fighters[0].text.strip())
-                        f2.append(fighters[1].text.strip())
-                    except IndexError:
-                        f1.append("null")
-                        f2.append("null")
-                    continue
+    return None
 
 
-        return None
-
+# preprocessing
+# remove rows where DOB is null
+# impute stance as orthodox for missing stances
 def create_df():
+    # create empty dataframe
     df = pd.DataFrame()
+
     df["Event"] = e_name
     df["Fighter_1"] = f1
     df["Fighter_2"] = f2
- 
+
     return df
+
 
 def merge_data(df):
 
@@ -83,11 +85,10 @@ def merge_data(df):
 
         test = pd.merge(df, odds_db, left_on=["Fighter_1"], right_on=["Fighter1"])
         test2 = pd.merge(test, odds_db, left_on=["Fighter_2"], right_on=["Fighter2"])
-        test3= pd.concat([test2,odds_db],axis=1, sort=True)
-        
+        test3= pd.concat([test2,odds_db],sort=True)
  
         
-        final_df = test2[['Event', 'Fighter_1', 'Fighter_2','Fighter1_Odds', 'Fighter2_Odds']]
+        final_df = test3[['Event', 'Fighter_1', 'Fighter_2', 'Fighter1_Odds', 'Fighter2_Odds']]
 
         return final_df
 
