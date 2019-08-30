@@ -83,6 +83,8 @@ def merge_data(df):
 
         odds_db = pd.DataFrame.from_dict(j)
 
+        return odds_db
+        '''
         test = pd.merge(df, odds_db, left_on=["Fighter_1"], right_on=["Fighter1"])
         test2 = pd.merge(test, odds_db, left_on=["Fighter_2"], right_on=["Fighter2"])
         test3= pd.concat([test2,odds_db],axis=1,sort=True)
@@ -91,7 +93,8 @@ def merge_data(df):
         final_df = test3[['Event', 'Fighter_1', 'Fighter_2', 'Fighter1_Odds', 'Fighter2_Odds']]
 
         return final_df
-
+        '''
+        
 scrape_data()
 df = create_df()
 df = merge_data(df)
