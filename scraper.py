@@ -88,7 +88,7 @@ def merge_data(df):
         
  
         
-        final_df = test3[['Event', 'Fighter_1', 'Fighter_2']]
+        final_df = test2[['Event', 'Fighter_1', 'Fighter_2']]
 
         return final_df
 
