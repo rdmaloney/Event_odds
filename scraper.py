@@ -89,11 +89,11 @@ def merge_data(df):
         test2 = pd.merge(test, odds_db, left_on=["Fighter_2"], right_on=["Fighter2"])
         test3= pd.concat([test2,odds_db],axis=1,sort=True)
  
-        
-        final_df = test3[['Event', 'Fighter_1', 'Fighter_2', 'Fighter1_Odds', 'Fighter2_Odds']]
+        '''
+        final_df = test[['Event', 'Fighter_1', 'Fighter_2', 'Fighter1_Odds', 'Fighter2_Odds']]
 
         return final_df
-        '''
+        
         
         return test
         
